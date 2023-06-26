@@ -1,0 +1,3 @@
+# Local mongo data
+docker-composes/mongo/config.js
+docker-composes/mongo/mongo_data

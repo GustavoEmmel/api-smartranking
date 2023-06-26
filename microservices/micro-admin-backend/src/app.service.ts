@@ -1,8 +1,4 @@
-import {
-  BadRequestException,
-  Injectable,
-  NotFoundException,
-} from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Category } from './interfaces/categories/category.interface';
@@ -13,6 +9,16 @@ export class AppService {
   constructor(
     @InjectModel('Category') private readonly categoryModel: Model<Category>,
   ) {}
+
+  async updateCategory(
+    category: string,
+    updateCategoryDto: Category,
+  ): Promise<void> {
+    await this.getCategoryById(category);
+    await this.categoryModel
+      .findOneAndUpdate({ category }, { $set: updateCategoryDto })
+      .exec();
+  }
 
   async createCategory(category: Category): Promise<Category> {
     try {
